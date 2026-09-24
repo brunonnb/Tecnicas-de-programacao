@@ -72,13 +72,25 @@ void lerVetor(int vetor[], int *tamanho_real, int limite_maximo) {
     }
 }
 
-void listarVetor(int vetor[], int *tamanho_real , int n_vetor){
+void listarVetor(int vetor[], int tamanho_real , int n_vetor){
     //essa funcao imprime os valores do vetor desejado na tela
     
     printf("Elementos do vetor %d: ", n_vetor);
 
-    for(int i = 0 ; i < *tamanho_real; i++){
+    for(int i = 0 ; i < tamanho_real; i++){
         printf(" [%d] = %d ", i , vetor[i]);
+    }
+    printf("\n");
+    
+}
+
+void listarVetorSomado(int v3[], int tamanho){
+    //essa funcao imprime os valores do vetor  na tela
+    
+    printf("Elementos do vetor somado sem repeticao: ");
+
+    for(int i = 0 ; i < tamanho; i++){
+        printf(" [%d] = %d ", i , v3[i]);
     }
     printf("\n");
     
@@ -92,13 +104,38 @@ void somarVetor(int v1[], int v2[], int vSoma[], int tamanho){
     }
 }
 
-void somarVetor_2(int v1[], int v2[], int vNovo[], int tamanho){
- //essa funcao cria um vetor contendo os elementos que aparecem em apenas um dos dois vetores.
-    for(int i = 0 ; i < tamanho ; i++){
-        for(int j = 0 ; j < tamanho ; j++){ //varredura de elementos do vetor 2 para comparar com o vetor 1
-            if(v1[i] != v2[j]){
-                vNovo[i] = v1[i];
+void gerarExclusivos(int v1[], int v2[], int v3[], int tamanho ,int *c){
+    *c = 0; // Inicializa o contador ponteiro em 0
+
+    // Procura elementos de v1 que NAO estao em v2
+    for (int i = 0; i < tamanho; i++) {
+        int achou = 0;
+        for (int j = 0; j < tamanho; j++) {
+            if (v1[i] == v2[j]) {
+                achou = 1; // Encontrou em v2, entao nao é exclusivo
+                break;
             }
+        }
+        // Se NÃO achou em v2, insere no v3
+        if (!achou) {
+            v3[*c] = v1[i];
+            (*c)++;
+        }
+    }
+
+    // Procura elementos de v2 que NAO estao em v1
+    for (int i = 0; i < tamanho; i++) {
+        int achou = 0;
+        for (int j = 0; j < tamanho; j++) {
+            if (v2[i] == v1[j]) {
+                achou = 1; // Encontrou em v1, entao nao é exclusivo
+                break;
+            }
+        }
+        // Se NAO achou em v1, insere no v3
+        if (!achou) {
+            v3[*c] = v2[i];
+            (*c)++;
         }
     }
 }
@@ -133,6 +170,7 @@ void verificador(int vetor[], int tamanho, int numero){
 
 int main () {
     int opcao;
+    int c = 0;
     int vetor1[30];
     int vetor2[20];
     int vetor_SOMA[20];
@@ -187,22 +225,33 @@ int main () {
                              printf("\nERROR ! Vetor ainda nao gerado.\n");
                     } else {
                             printf("-------- Listando vetor 1 --------\n");
-                            listarVetor(vetor1,&total_elementos1,1);
+                            listarVetor(vetor1,total_elementos1,1);
                     }
                 } else if(opcao == 2){
                     if(total_elementos2 == 0){
                              printf("\nERROR ! Vetor ainda nao gerado.\n");
                     } else {
                             printf("-------- Listando vetor 2 --------\n");
-                            listarVetor(vetor2,&total_elementos2,2);
+                            listarVetor(vetor2,total_elementos2,2);
                     }
                 } else if(opcao == 3){
                     if(total_elementos_SOMA == 0){
-                        printf("\nERROR ! Vetor ainda nao gerado.\n");
-                    } else {
-                        printf("-------- Listando vetor Somado --------\n");
-                        listarVetor(vetor_SOMA,&total_elementos_SOMA , 3);
-                    }
+                                printf("\nERROR ! Vetor ainda nao gerado.\n");
+                            } else {
+                                printf("-------- Soma normal(1) ou Sem repeticao(2)? --------\n");
+                                scanf("%d", &opcao);
+                                if(opcao == 1){
+                                    printf("-------- Verificando vetor Somado --------\n");
+
+                                    listarVetor(vetor_ESCALAR_SOMA, total_elementos_SOMA, 3);
+                                } else if(opcao == 2){
+                                    printf("-------- Verificando vetor Somado sem repeticao --------\n");
+                                    
+                                    listarVetor(vetor_SOMA2, total_elementos_SOMA, 3);
+                                } else {
+                                    printf("ERROR!!! Opcao invalida.\n");
+                                }
+                            }
                 } else if(opcao == 4){
                     if(total_elementos_ESCALAR == 0){
                         printf("\nERROR ! Vetor ainda nao gerado.\n");
@@ -221,21 +270,21 @@ int main () {
                              printf("\nERROR ! Vetor ainda nao gerado.\n");
                             } else {
                                     printf("-------- Listando vetor 1 --------\n");
-                                    listarVetor(vetor_ESCALAR1,&total_elementos1,1);
+                                    listarVetor(vetor_ESCALAR1,total_elementos1,1);
                             }
                         } else if (opcao == 2){
                             if(total_elementos2 == 0){
                              printf("\nERROR ! Vetor ainda nao gerado.\n");
                             } else {
                                     printf("-------- Listando vetor 2 --------\n");
-                                    listarVetor(vetor_ESCALAR2,&total_elementos2,2);
+                                    listarVetor(vetor_ESCALAR2,total_elementos2,2);
                             }
                         } else if (opcao == 3){
                             if(total_elementos_SOMA == 0){
                                 printf("\nERROR ! Vetor ainda nao gerado.\n");
                             } else {
                                 printf("-------- Listando vetor Somado --------\n");
-                                listarVetor(vetor_ESCALAR_SOMA,&total_elementos_SOMA , 3);
+                                listarVetor(vetor_ESCALAR_SOMA,total_elementos_SOMA , 3);
                             }
                         } else { 
                             printf("Opcao invalida! \n");
@@ -268,7 +317,7 @@ int main () {
 
                         scanf("%d", &opcao);
                         if(opcao == 1) {
-                            listarVetor(vetor_SOMA, &total_elementos_SOMA, 3);
+                            listarVetor(vetor_SOMA, total_elementos_SOMA, 3);
                         } else if(opcao > 2 || opcao < 0){
                             printf("ERROR!!! Opcao invalida.\n");
                         }
@@ -283,7 +332,7 @@ int main () {
                     } else {
                         total_elementos_SOMA = total_elementos1;
 
-                        somarVetor_2(vetor1, vetor2, vetor_SOMA2, total_elementos_SOMA);
+                        gerarExclusivos(vetor1, vetor2, vetor_SOMA2, total_elementos_SOMA , &c);
 
                         printf("Vetores somados com sucesso!\n");
                         printf("\nDeseja ver o resultado? 1 - sim | 2 - nao\n");
@@ -291,7 +340,7 @@ int main () {
 
                         scanf("%d", &opcao);
                         if(opcao == 1) {
-                            listarVetor(vetor_SOMA2, &total_elementos_SOMA, 3);
+                            listarVetor(vetor_SOMA2, total_elementos_SOMA, 3);
                         } else if(opcao > 2 || opcao < 0){
                             printf("ERROR!!! Opcao invalida.\n");
                         }
@@ -315,7 +364,7 @@ int main () {
                             gerarEscalar(vetor_ESCALAR1, vetor1 , total_elementos_ESCALAR);
 
                             printf("\nNovo vetor gerado com sucesso!\n");
-                            listarVetor(vetor_ESCALAR1, &total_elementos_ESCALAR, 4); 
+                            listarVetor(vetor_ESCALAR1, total_elementos_ESCALAR, 4); 
                         }
                     
                 } else if (opcao == 2){
@@ -327,7 +376,7 @@ int main () {
                             gerarEscalar(vetor_ESCALAR2, vetor2 , total_elementos_ESCALAR);
                             
                             printf("\nNovo vetor gerado com sucesso!\n");
-                            listarVetor(vetor_ESCALAR2, &total_elementos_ESCALAR, 4); 
+                            listarVetor(vetor_ESCALAR2, total_elementos_ESCALAR, 4); 
                         }
                     
                 } else if (opcao == 3){
@@ -340,7 +389,7 @@ int main () {
                             gerarEscalar(vetor_ESCALAR_SOMA, vetor_SOMA , total_elementos_ESCALAR);
 
                             printf("\nNovo vetor gerado com sucesso!\n");
-                            listarVetor(vetor_ESCALAR_SOMA, &total_elementos_ESCALAR, 4);  
+                            listarVetor(vetor_ESCALAR_SOMA, total_elementos_ESCALAR, 4);  
                         }
                 } else if(opcao > 3 || opcao < 0) {
                         printf("ERROR!!! Opcao invalida.\n");
