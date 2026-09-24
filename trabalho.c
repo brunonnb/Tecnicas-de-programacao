@@ -178,6 +178,7 @@ int main () {
     int vetor_ESCALAR1[30];
     int vetor_ESCALAR2[20];
     int vetor_ESCALAR_SOMA[20];
+    int vetor_ESCALAR_SOMA2[20];
     int total_elementos1 = 0;
     int total_elementos2 = 0;
     int total_elementos_SOMA = 0;
@@ -243,7 +244,7 @@ int main () {
                                 if(opcao == 1){
                                     printf("-------- Verificando vetor Somado --------\n");
 
-                                    listarVetor(vetor_ESCALAR_SOMA, total_elementos_SOMA, 3);
+                                    listarVetor(vetor_SOMA, total_elementos_SOMA, 3);
                                 } else if(opcao == 2){
                                     printf("-------- Verificando vetor Somado sem repeticao --------\n");
                                     
@@ -261,6 +262,7 @@ int main () {
                         printf("\t1. Listar vetor 1\n");
                         printf("\t2. Listar vetor 2\n");
                         printf("\t3. Listar vetor Somado\n");
+                        printf("\t4. Listar vetor Somado sem repeticao\n");
                         printf("\nEscolha uma opcao: ");
 
                         scanf("%d", &opcao);
@@ -283,8 +285,16 @@ int main () {
                             if(total_elementos_SOMA == 0){
                                 printf("\nERROR ! Vetor ainda nao gerado.\n");
                             } else {
+
                                 printf("-------- Listando vetor Somado --------\n");
                                 listarVetor(vetor_ESCALAR_SOMA,total_elementos_SOMA , 3);
+                            }
+                        } else if (opcao == 4){
+                            if(total_elementos_SOMA == 0){
+                                printf("\nERROR ! Vetor ainda nao gerado.\n");
+                            } else {
+                                printf("-------- Listando vetor Somado sem repeticao --------\n");
+                                listarVetor(vetor_ESCALAR_SOMA2,total_elementos_SOMA , 4);
                             }
                         } else { 
                             printf("Opcao invalida! \n");
@@ -300,12 +310,15 @@ int main () {
                 printf("Soma normal (1) ou soma sem repeticao (2)?\n");
                 printf("Escolha uma opcao (1 ou 2): "); scanf("%d", &opcao);
                 if(opcao == 1){
+
+                    //teste de validade dos vetores
                     if(total_elementos1 != total_elementos2){
                         printf("\nERROR!!! Os dois vetores precisam ter o mesmo tamanho.\n");
                     
                     } else if (total_elementos1 == 0 || total_elementos2 == 0){
                         printf("\nERROR!!! Leia os dados primeiro.\n");
                     
+                    //soma normal dos vetores    
                     } else {
                         total_elementos_SOMA = total_elementos1;
 
@@ -323,6 +336,8 @@ int main () {
                         }
                     }
                 } else {
+                    
+                    //teste de validade dos vetores
                     if(total_elementos1 != total_elementos2){
                         printf("\nERROR!!! Os dois vetores precisam ter o mesmo tamanho.\n");
                     
@@ -330,6 +345,8 @@ int main () {
                         printf("\nERROR!!! Leia os dados primeiro.\n");
                     
                     } else {
+                        //soma sem repeticao dos vetores
+                        
                         total_elementos_SOMA = total_elementos1;
 
                         gerarExclusivos(vetor1, vetor2, vetor_SOMA2, total_elementos_SOMA , &c);
@@ -350,12 +367,16 @@ int main () {
 
             case 5:     
                 limpartela();
-                printf("Qual vetor deseja mulitplicar? 1 || 2 || 3(v1 + v2)\n");
+                printf("Qual vetor deseja mulitplicar?\n");
+                printf("\t1. Listar vetor 1\n");
+                printf("\t2. Listar vetor 2\n");
+                printf("\t3. Listar vetor Somado\n");
+                printf("\t4. Listar vetor Somado sem repeticao\n");
                 printf("Escolha uma opcao: ");
                             
                 scanf("%d", &opcao);
                 
-                if(opcao == 1){
+                if(opcao == 1){ 
                         if(total_elementos1 == 0){
                             printf("\nERROR ! Vetor ainda nao gerado.\n");
                         } else{
@@ -380,16 +401,24 @@ int main () {
                         }
                     
                 } else if (opcao == 3){
-                        if(total_elementos1 == 0 || total_elementos2 == 0){
+                        //teste de validade dos vetores
+                        if(total_elementos1 == 0 || total_elementos2 == 0){ 
                             printf("\nERROR!!! Gere o vetor soma primeiro.\n");
                     
                         } else {
                             total_elementos_ESCALAR = total_elementos_SOMA;
                             
-                            gerarEscalar(vetor_ESCALAR_SOMA, vetor_SOMA , total_elementos_ESCALAR);
+                            printf("-------- Soma normal(1) ou Sem repeticao(2)? --------\n");
+                            scanf("%d", &opcao);
 
-                            printf("\nNovo vetor gerado com sucesso!\n");
-                            listarVetor(vetor_ESCALAR_SOMA, total_elementos_ESCALAR, 4);  
+                            if(opcao == 1){ //soma normal
+                                gerarEscalar(vetor_ESCALAR_SOMA, vetor_SOMA , total_elementos_ESCALAR);
+
+                            } else if(opcao == 2){ //soma sem repeticao
+
+                                gerarEscalar(vetor_ESCALAR_SOMA2, vetor_SOMA2 , total_elementos_ESCALAR);
+                            }
+                            
                         }
                 } else if(opcao > 3 || opcao < 0) {
                         printf("ERROR!!! Opcao invalida.\n");
@@ -469,13 +498,15 @@ int main () {
                                 printf("-------- Soma normal(1) ou Sem repeticao(2)? --------\n");
                                 scanf("%d", &opcao);
                                 if(opcao == 1){
+                                    //soma normal dos vetores
                                     printf("-------- Verificando vetor Somado --------\n");
                                     int numero = obterNumero();
                                     verificador(vetor_ESCALAR_SOMA, total_elementos_SOMA, numero);
                                 } else if(opcao == 2){
+                                    //soma sem repeticao dos vetores
                                     printf("-------- Verificando vetor Somado sem repeticao --------\n");
                                     int numero = obterNumero();
-                                    verificador(vetor_SOMA2, total_elementos_SOMA, numero);
+                                    verificador(vetor_ESCALAR_SOMA2, total_elementos_SOMA, numero);
                                 } else {
                                     printf("ERROR!!! Opcao invalida.\n");
                                 }
